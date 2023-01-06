@@ -9,10 +9,18 @@ export const Todo = () => {
 
   // ------------------------------ Input Box ---------------------------------------------->
 
+
   const { Search } = Input;
 
-  const AddTodoTask = () => {
-    
+  const AddTodoTask = (value) => {
+
+    let paramsObj = {
+      todo : value ,
+      status : false
+    }
+
+    axios.post("http://localhost:8080/todos",paramsObj)
+  
   }
 
   
@@ -115,13 +123,13 @@ export const Todo = () => {
 
     return(
 
-        <>
+      <>
+
         <h1>TODO TABLE</h1>
 
         <div className="searchBox">
           <Search
           placeholder="input search text"
-          allowClear
           enterButton="ADD"
           size="large"
           onSearch={AddTodoTask}
@@ -135,7 +143,8 @@ export const Todo = () => {
         </Space>
 
         <Table columns={columns} dataSource={data} onChange={handleChange} />
-        </>
+
+      </>
     )
 }
 
