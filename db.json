@@ -1,9 +1,14 @@
 {
   "todos": [
     {
-      "todo": "breakfast",
+      "todo": "Breakfast",
       "status": false,
       "id": 1
+    },
+    {
+      "todo": "Homweork",
+      "status": false,
+      "id": 2
     }
   ]
 }

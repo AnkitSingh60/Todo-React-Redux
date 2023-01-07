@@ -2,7 +2,17 @@
 h1{
     text-align: center;
 }
-.searchBox{
+.searchDiv{
     margin: auto;
     width: 40%;
+}
+.filterDiv{
+    width: 30%;
+    margin: auto;
+    margin-top: 2%;
+}
+.tableDiv{
+    width: 90%;
+    margin: auto;
+    margin-top: 2%;
 }

@@ -73,7 +73,7 @@ export const Todo = () => {
   const columns = [
 
     {
-      title: 'S. No.',
+      title: 'S. NO.',
       dataIndex: 'id',
       key: 'id',
     },
@@ -99,16 +99,26 @@ export const Todo = () => {
       // sortOrder: sortedInfo.columnKey === 'address' ? sortedInfo.order : null,
       // ellipsis: true,
     },
+    {
+      title: 'EDIT',
+      dataIndex: 'todo',
+      key: 'todo',
+    },
+    {
+      title: 'DELETE',
+      dataIndex: 'todo',
+      key: 'todo',
+    },
   ];
   
 
-    return(
+  return(
 
       <>
 
         <h1>TODO TABLE</h1>
 
-        <div className="searchBox">
+        <div className="searchDiv">
           <Search
           placeholder="input search text"
           enterButton="ADD"
@@ -117,16 +127,20 @@ export const Todo = () => {
           />
         </div>
 
-        <Space style={{ marginBottom: 16 }}>
-          <Button onClick={setAgeSort}>Sort age</Button>
-          <Button onClick={clearFilters}>Clear filters</Button>
-          <Button onClick={clearAll}>Clear filters and sorters</Button>
-        </Space>
+        <div className="filterDiv">
+          <Space style={{ marginBottom: 16 }}>
+            <Button onClick={setAgeSort}>Sort age</Button>
+            <Button onClick={clearFilters}>Clear filters</Button>
+            <Button onClick={clearAll}>Clear filters and sorters</Button>
+          </Space>
+        </div>
 
-        <Table columns={columns} dataSource={todoData} onChange={handleChange} />
+        <div className="tableDiv">
+          <Table columns={columns} dataSource={todoData} onChange={handleChange} />
+        </div>
 
       </>
-    )
+  )
 }
 
 
