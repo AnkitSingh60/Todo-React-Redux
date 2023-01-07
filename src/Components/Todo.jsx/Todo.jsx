@@ -140,9 +140,9 @@ export const Todo = () => {
 
         <div className="filterDiv">
           <Space style={{ marginBottom: 16 }}>
-            <Button onClick={getActiveTodos}>Active</Button>
-            <Button onClick={getCompletedTodos}>Completed</Button>
-            <Button onClick={getAllTodos}>Both Active And Completed</Button>
+            <Button onClick={getActiveTodos}>Show Active Tasks</Button>
+            <Button onClick={getCompletedTodos}>Show Completed Tasks</Button>
+            <Button onClick={getAllTodos}>Show All Tasks</Button>
           </Space>
         </div>
 
