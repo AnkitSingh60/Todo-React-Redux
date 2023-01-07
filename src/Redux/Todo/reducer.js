@@ -7,8 +7,10 @@ const initialState = {
 
 export const todoReducer = (store = initialState , {type , payload}) => {
 
+    console.log("payload" , payload)
+
     switch(type){
-        
+
         case GET_TODO :
             return {...store , todos : payload}
 

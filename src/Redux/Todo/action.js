@@ -3,7 +3,6 @@ import axios from "axios"
 
 export const GET_TODO = "GET_TODO"
 
-
 const getTodos = (payload) => ({
 
     type : GET_TODO ,
