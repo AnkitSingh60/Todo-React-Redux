@@ -3,7 +3,9 @@ import { Button,Input, Space, Table } from 'antd';
 import "./Todo.css"
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTodosData } from '../../Redux/Todo/action';
+import { deleteTodoData, getTodosData } from '../../Redux/Todo/action';
+import { DeleteOutlined , EditOutlined } from '@ant-design/icons'
+import { EditTodo } from '../EditTodo/EditTodo';
 
 
 export const Todo = () => {
@@ -18,6 +20,7 @@ export const Todo = () => {
   const todoData = useSelector((store)=> store.todoReducer.todos)
   //console.log(todoData)
 
+  
 
   // ------------------------------ Input Box ---------------------------------------------->
 
@@ -31,45 +34,56 @@ export const Todo = () => {
       status : false
     }
 
-    axios.post("http://localhost:8080/todos",paramsObj)
+    axios.post("http://localhost:8080/todos",paramsObj).then(()=> dispatch(getTodosData()))
   
   }
 
-  
 
   
+  //---------------------------------------- Edit Modal -------------------------------------------->
 
-    
-    
 
-    const [filteredInfo, setFilteredInfo] = useState({});
-    const [sortedInfo, setSortedInfo] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editTodo, setEditTodo] = useState({});
 
-   
-    
-
-  const handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
-    setFilteredInfo(filters);
-    setSortedInfo(sorter);
+  const showModal = (record) => {
+    setEditTodo(record)
+    setIsModalOpen(true);
   };
 
-  const clearFilters = () => {
-    setFilteredInfo({});
+  const handleOk = () => {
+    setIsModalOpen(false);
   };
 
-  const clearAll = () => {
-    setFilteredInfo({});
-    setSortedInfo({});
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
-  const setAgeSort = () => {
-    setSortedInfo({
-      order: 'descend',
-      columnKey: 'age',
-    });
-  };
 
+  
+  // ----------------------------------------- Filter ------------------------------------------------>
+
+
+  const [filterData , setFilterData] = useState([])
+
+  const getActiveTodos = () => {
+    let activeTodos = todoData.filter((el) => el.status == false)
+    setFilterData(activeTodos)
+  }
+  
+  const getCompletedTodos = () => {
+    let completedTodos = todoData.filter((el) => el.status == true)
+    setFilterData(completedTodos)
+  }
+
+  const getAllTodos = () => {
+    setFilterData(todoData)
+  }
+
+
+  //--------------------------------------- Table Columns ------------------------------------------->
+
+  
   const columns = [
 
     {
@@ -87,40 +101,37 @@ export const Todo = () => {
       dataIndex: 'status',
       key: 'status',
       render: (record) => {
-        return record.status ? "Completed" : "Active"
-      }
-      // filters: [
-      //   { text: 'London', value: 'London' },
-      //   { text: 'New York', value: 'New York' },
-      // ],
-      // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.address.includes(value),
-      // sorter: (a, b) => a.address.length - b.address.length,
-      // sortOrder: sortedInfo.columnKey === 'address' ? sortedInfo.order : null,
-      // ellipsis: true,
+        return record ? "Completed" : "Active"
+      },
+  
     },
     {
       title: 'EDIT',
-      dataIndex: 'todo',
-      key: 'todo',
+      dataIndex: '',
+      key: '',
+      render : (record) => {
+        return <EditOutlined onClick={() => showModal(record)}/>
+      }
     },
     {
       title: 'DELETE',
-      dataIndex: 'todo',
-      key: 'todo',
+      dataIndex: '',
+      key: '',
+      render : (record) => {
+        return <DeleteOutlined onClick={() => dispatch(deleteTodoData(record?.id))} />
+      }
     },
   ];
   
 
   return(
 
-      <>
-
+    <>
         <h1>TODO TABLE</h1>
 
         <div className="searchDiv">
           <Search
-          placeholder="input search text"
+          placeholder="enter your todo here"
           enterButton="ADD"
           size="large"
           onSearch={AddTodoTask}
@@ -129,23 +140,21 @@ export const Todo = () => {
 
         <div className="filterDiv">
           <Space style={{ marginBottom: 16 }}>
-            <Button onClick={setAgeSort}>Sort age</Button>
-            <Button onClick={clearFilters}>Clear filters</Button>
-            <Button onClick={clearAll}>Clear filters and sorters</Button>
+            <Button onClick={getActiveTodos}>Active</Button>
+            <Button onClick={getCompletedTodos}>Completed</Button>
+            <Button onClick={getAllTodos}>Both Active And Completed</Button>
           </Space>
         </div>
 
         <div className="tableDiv">
-          <Table columns={columns} dataSource={todoData} onChange={handleChange} />
+          <Table columns={columns} dataSource={filterData.length ? filterData : todoData} />
         </div>
 
-      </>
+        <EditTodo isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel} editTodo={editTodo} setEditTodo={setEditTodo} />
+
+    </>
   )
 }
-
-
-
-
 
 
 

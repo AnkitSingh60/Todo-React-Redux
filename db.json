@@ -2,13 +2,23 @@
   "todos": [
     {
       "todo": "Breakfast",
-      "status": false,
+      "status": true,
       "id": 1
     },
     {
       "todo": "Homweork",
-      "status": false,
+      "status": true,
       "id": 2
+    },
+    {
+      "todo": "Cooking",
+      "status": false,
+      "id": 3
+    },
+    {
+      "todo": "Drawing",
+      "status": false,
+      "id": 4
     }
   ]
 }
